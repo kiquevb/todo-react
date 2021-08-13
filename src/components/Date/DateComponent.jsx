@@ -8,7 +8,7 @@ let dateOptions = {
 };
 
 const DateComponent = () => {
-  return <p>{date.toLocaleDateString("en-US", dateOptions)}</p>;
+  return <h1>{date.toLocaleDateString("en-US", dateOptions)}</h1>;
 };
 
 export default DateComponent;
