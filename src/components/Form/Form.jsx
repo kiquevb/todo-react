@@ -1,10 +1,18 @@
 import React from "react";
+import styled from "@emotion/styled";
 
 import { useDispatch } from "react-redux";
 import { addTask } from "../../redux/reducers/taskReducer";
 
 let titleInput = React.createRef();
 let descInput = React.createRef();
+
+const FormStyled = styled.form`
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  bottom: 20px;
+`;
 
 const Form = () => {
   const dispatch = useDispatch();
@@ -29,7 +37,7 @@ const Form = () => {
   }
 
   return (
-    <form autocomplete="off" onSubmit={handleClick}>
+    <FormStyled autocomplete="off" onSubmit={handleClick}>
       <input
         ref={titleInput}
         type="text"
@@ -45,13 +53,13 @@ const Form = () => {
         placeholder="Description"
       ></input>
       <input type="radio" name="prioridad" value="alta" id="alta" />
-      <label for="alta">Alta</label>
-      <input type="radio" name="prioridad" value="media" id="media" checked />
-      <label for="media">Media</label>
+      <label htmlFor="alta">Alta</label>
+      <input type="radio" name="prioridad" value="media" id="media" />
+      <label htmlFor="media">Media</label>
       <input type="radio" name="prioridad" value="baja" id="baja" />
-      <label for="baja">Baja</label>
+      <label htmlFor="baja">Baja</label>
       <button type="submit">Add Task</button>
-    </form>
+    </FormStyled>
   );
 };
 

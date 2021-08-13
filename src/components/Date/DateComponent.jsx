@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "@emotion/styled";
 
 let date = new Date();
 let dateOptions = {
@@ -7,8 +8,16 @@ let dateOptions = {
   month: "long",
 };
 
+const DateStyled = styled.h1`
+  color: #fff;
+  margin: 0;
+  font-weight: 400;
+`;
+
 const DateComponent = () => {
-  return <h1>{date.toLocaleDateString("en-US", dateOptions)}</h1>;
+  return (
+    <DateStyled>{date.toLocaleDateString("en-US", dateOptions)}</DateStyled>
+  );
 };
 
 export default DateComponent;
