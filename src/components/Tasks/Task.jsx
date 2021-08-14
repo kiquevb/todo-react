@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { completeTask, restoreTask } from "../../redux/reducers/taskReducer";
 
 const TaskStyled = styled.div`
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   background-color: rgba(41, 41, 41, 0.95);
   border-radius: 5px;
   padding: 12px;
