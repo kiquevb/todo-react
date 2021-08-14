@@ -15,8 +15,8 @@ injectGlobal`
     position: relative;
     height: 100vh;
     background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(100px);
-    -webkit-backdrop-filter: blur(100px);
+    backdrop-filter: blur(60px);
+    -webkit-backdrop-filter: blur(60px);
   }
   .tab-active {
     background: rgba(0, 0, 0, 0.3);
@@ -157,7 +157,7 @@ function App() {
           <Name>kiquevb To Do</Name>
           <Account>
             Enrique Vergara
-            <SmallText>luiskike.vergara@gmail.com</SmallText>
+            <SmallText>github.com/kiquevb</SmallText>
           </Account>
           <br />
           <br />

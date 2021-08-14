@@ -5,7 +5,7 @@ function getDate() {
   return `${date.toLocaleDateString("en-US", {
     day: "numeric",
     month: "long",
-  })} at ${date.toLocaleTimeString()}`;
+  })}, ${date.toLocaleTimeString()}`;
 }
 
 export const taskReducer = createSlice({

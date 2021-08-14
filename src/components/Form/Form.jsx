@@ -22,7 +22,6 @@ const FormStyled = styled.form`
   height: 45px;
   justify-content: space-between;
   padding: 0 15px;
-  width: 95%;
 
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
