@@ -1,13 +1,19 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { useDispatch } from "react-redux";
-import { completeTask, restoreTask } from "../../redux/reducers/taskReducer";
+import {
+  completeTask,
+  restoreTask,
+  deleteCompletedTask,
+  deleteActiveTask,
+} from "../../redux/reducers/taskReducer";
 import {
   CheckCircle,
   ArrowCounterClockwise,
   CellSignalLow,
   CellSignalMedium,
   CellSignalFull,
+  Trash,
 } from "phosphor-react";
 
 const TaskStyled = styled.div`
@@ -23,6 +29,7 @@ const DivTitle = styled.div`
   display: flex;
   align-items: center;
   .mainButton {
+    cursor: pointer;
     opacity: 0.2;
     &:hover {
       opacity: 0.75;
@@ -48,8 +55,18 @@ const DivInfo = styled.div`
   display: flex;
   align-items: center;
   margin-top: 5px;
-  .priorityIcon {
+  .trashIcon {
+    cursor: pointer;
     margin-left: auto;
+    margin-right: 5px;
+    opacity: 0.2;
+    &:hover {
+      opacity: 0.75;
+    }
+    &:active {
+      opacity: 1;
+      transform: scale(0.9);
+    }
   }
 `;
 
@@ -70,6 +87,10 @@ const Task = ({ task, active, index, show }) => {
   }
   function handleRestore(index) {
     dispatch(restoreTask(index));
+  }
+  function handleDelete(index, list) {
+    if (list === "active") dispatch(deleteActiveTask(index));
+    else if (list === "completed") dispatch(deleteCompletedTask(index));
   }
 
   return show ? (
@@ -110,6 +131,16 @@ const Task = ({ task, active, index, show }) => {
         ) : (
           <Description>{task.description}</Description>
         )}
+        <Trash
+          onClick={() =>
+            active
+              ? handleDelete(index, "active")
+              : handleDelete(index, "completed")
+          }
+          className="trashIcon"
+          size={16}
+          color="#dbdbdb"
+        />
         {task.prioridad === "alta" ? (
           <CellSignalFull
             className="priorityIcon"

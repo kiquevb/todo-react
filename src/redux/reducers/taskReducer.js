@@ -40,11 +40,23 @@ export const taskReducer = createSlice({
       taskAux.dateCompleted = null;
       state.active.push(taskAux);
     },
+    deleteActiveTask: (state, { payload }) => {
+      state.active.splice(payload, 1);
+    },
+    deleteCompletedTask: (state, { payload }) => {
+      state.completed.splice(payload, 1);
+    },
   },
 });
 
 // Escritura
-export const { setTasks, completeTask, restoreTask, addTask } =
-  taskReducer.actions;
+export const {
+  setTasks,
+  completeTask,
+  restoreTask,
+  addTask,
+  deleteActiveTask,
+  deleteCompletedTask,
+} = taskReducer.actions;
 // Lectura
 export default taskReducer.reducer;
