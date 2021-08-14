@@ -4,14 +4,13 @@ import { useDispatch } from "react-redux";
 import { completeTask, restoreTask } from "../../redux/reducers/taskReducer";
 
 const TaskStyled = styled.div`
-  margin: 20px 0;
+  margin-bottom: 20px;
   background-color: rgba(41, 41, 41, 0.95);
   border-radius: 5px;
   padding: 12px;
-  width: 95%;
 `;
 
-const Task = ({ task, active, index }) => {
+const Task = ({ task, active, index, show }) => {
   const dispatch = useDispatch();
 
   function handleComplete(index) {
@@ -21,7 +20,7 @@ const Task = ({ task, active, index }) => {
     dispatch(restoreTask(index));
   }
 
-  return (
+  return show ? (
     <TaskStyled>
       {active ? (
         <button onClick={() => handleComplete(index)}>Complete</button>
@@ -32,7 +31,6 @@ const Task = ({ task, active, index }) => {
       {task.description === undefined || task.description === null ? null : (
         <p>{task.description}</p>
       )}
-
       <p>Prioridad: {task.prioridad}</p>
       {task.dateAdded === undefined || task.dateAdded === null ? null : (
         <p>Added: {task.dateAdded}</p>
@@ -42,7 +40,7 @@ const Task = ({ task, active, index }) => {
         <p>Completed: {task.dateCompleted}</p>
       )}
     </TaskStyled>
-  );
+  ) : null;
 };
 
 export default Task;

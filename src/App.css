@@ -9,3 +9,7 @@
   font-family: "Open Sans", sans-serif !important;
   color: rgb(201, 201, 201);
 }
+
+.App::-webkit-scrollbar {
+  display: none;
+}

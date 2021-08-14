@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { injectGlobal } from "@emotion/css";
+import styled from "@emotion/styled";
 import "./App.css";
 
-import styled from "@emotion/styled";
-import { injectGlobal } from "@emotion/css";
 import getList from "./Provider";
 import { Tasks, Date, Clock, TaskForm } from "./components";
 import { useDispatch } from "react-redux";
@@ -10,14 +10,15 @@ import { setTasks } from "./redux/reducers/taskReducer";
 
 injectGlobal`
   .side-bar{
-    width: 20%;
+    width: 23%;
+    position: relative;
     height: 100vh;
     background: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(100px);
     -webkit-backdrop-filter: blur(100px);
   }
   .tab-active {
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.3);
   }
   .completedPill{
     color:#fff;
@@ -28,19 +29,34 @@ injectGlobal`
     font-size: 0.9rem;
     width: fit-content;
   }
+  .noselect {
+    -webkit-touch-callout: none; 
+    -webkit-user-select: none; 
+    -khtml-user-select: none; 
+    -moz-user-select: none; 
+    -ms-user-select: none; 
+    user-select: none;                         
+  }
 `;
 
 const View = styled.div`
   height: 100vh;
   display: flex;
 `;
-
 const Main = styled.main`
-  width: 80%;
+  width: 77%;
   padding: 30px;
   position: relative;
 `;
+const MainTitle = styled.h1`
+  color: #fff;
+  margin: 0;
+`;
 
+const Account = styled.div`
+  font-size: 0.9rem;
+  margin-left: 20px;
+`;
 const Name = styled.p`
   font-size: 0.8rem;
   margin-top: 8px;
@@ -51,9 +67,19 @@ const SmallText = styled.p`
   font-size: 0.7rem;
   margin: 0;
 `;
-const Account = styled.div`
-  font-size: 0.9rem;
-  margin-left: 20px;
+
+const TasksContainer = styled.div`
+  width: 100%;
+  height: 65vh;
+  margin: 20px 0;
+  overflow-y: auto;
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const Tab = styled.div`
@@ -63,25 +89,20 @@ const Tab = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  cursor: pointer;
 
   &:hover {
     background: rgba(0, 0, 0, 0.4);
   }
-`;
-
-const TasksContainer = styled.div`
-  width: 100%;
-  height: 65vh;
-  margin: 20px 0;
-  overflow-y: auto;
-  &::-webkit-scrollbar-thumb {
-    background: #ccc;
-
-    border-radius: 4px;
+  &:active {
+    background: rgba(255, 255, 255, 0.1);
   }
 `;
 
 function App() {
+  // React State
+  const [filter, setFilter] = useState({ type: "myday", title: "My Day" });
+  // Redux State
   const dispatch = useDispatch();
 
   // In the app we use setTasks to set the tasks recieved
@@ -91,23 +112,42 @@ function App() {
     dispatch(setTasks(response.data));
   };
 
+  // Get the tasks from the API for the 1st time
   useEffect(() => {
     getListUI();
-  });
+  }, []);
+
+  // Renders the correct tasks based on the state filter
+  function taskFilter(state) {
+    switch (state) {
+      case "myday":
+        return (
+          <>
+            <Tasks type="active" />
+            <p className="completedPill">Completed</p>
+            <Tasks type="completed" />
+          </>
+        );
+      case "active":
+        return <Tasks type="active" />;
+      case "completed":
+        return <Tasks type="completed" />;
+      case "important":
+        return <Tasks type="important" />;
+      default:
+        return null;
+    }
+  }
+
+  function handleTabClick(newType, newTitle) {
+    setFilter({
+      type: newType,
+      title: newTitle,
+    });
+  }
 
   return (
     <div id="app" className="App">
-      {/* <main>
-        <Date />
-        <Clock />
-        true = active ; false = completed
-        <h1>Active tasks:</h1>
-        <Tasks type="active" />
-        <h1>Completed tasks:</h1>
-        <Tasks type="completed" />
-        <TaskForm />
-      </main> */}
-
       <View>
         <div className="left-bar side-bar">
           <Name>kiquevb To Do</Name>
@@ -116,20 +156,46 @@ function App() {
             <SmallText>luiskike.vergara@gmail.com</SmallText>
           </Account>
           <br />
-          <Tab className="tab-active">☀️ My Day</Tab>
-          <Tab>📝 Active</Tab>
-          <Tab>✔️ Completed</Tab>
-          <Tab>⚠️ Important</Tab>
+          <br />
+          <Tab
+            onClick={() => handleTabClick("myday", "My Day")}
+            className={`noselect ${
+              filter.type === "myday" ? "tab-active" : ""
+            }`}
+          >
+            ☀️ My Day{" "}
+          </Tab>
+          <Tab
+            onClick={() => handleTabClick("active", "Active Tasks")}
+            className={`noselect ${
+              filter.type === "active" ? "tab-active" : ""
+            }`}
+          >
+            📝 Active
+          </Tab>
+          <Tab
+            onClick={() => handleTabClick("completed", "Completed Tasks")}
+            className={`noselect ${
+              filter.type === "completed" ? "tab-active" : ""
+            }`}
+          >
+            ✔️ Completed
+          </Tab>
+          <Tab
+            onClick={() => handleTabClick("important", "Important Tasks!")}
+            className={`noselect ${
+              filter.type === "important" ? "tab-active" : ""
+            }`}
+          >
+            ⚠️ Important
+          </Tab>
+          <Clock className="clockStyle" />
         </div>
 
         <Main>
+          <MainTitle>{filter.title}</MainTitle>
           <Date />
-          <Clock />
-          <TasksContainer>
-            <Tasks type="active" />
-            <p className="completedPill">Completed</p>
-            <Tasks type="completed" />
-          </TasksContainer>
+          <TasksContainer>{taskFilter(filter.type)}</TasksContainer>
           <TaskForm />
         </Main>
       </View>

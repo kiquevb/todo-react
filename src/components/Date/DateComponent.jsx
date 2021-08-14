@@ -8,10 +8,10 @@ let dateOptions = {
   month: "long",
 };
 
-const DateStyled = styled.h1`
+const DateStyled = styled.h4`
   color: #fff;
   margin: 0;
-  font-weight: 400;
+  font-weight: 300;
 `;
 
 const DateComponent = () => {
