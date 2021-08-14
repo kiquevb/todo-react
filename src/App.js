@@ -7,6 +7,7 @@ import getList from "./Provider";
 import { Tasks, Date, Clock, TaskForm } from "./components";
 import { useDispatch } from "react-redux";
 import { setTasks } from "./redux/reducers/taskReducer";
+import { Sun, Notebook, CheckSquare, WarningCircle } from "phosphor-react";
 
 injectGlobal`
   .side-bar{
@@ -36,6 +37,9 @@ injectGlobal`
     -moz-user-select: none; 
     -ms-user-select: none; 
     user-select: none;                         
+  }
+  .tabIcon{
+    margin-right: 10px;
   }
 `;
 
@@ -163,7 +167,13 @@ function App() {
               filter.type === "myday" ? "tab-active" : ""
             }`}
           >
-            ☀️ My Day{" "}
+            <Sun
+              className="tabIcon"
+              size={24}
+              color="#f5b400"
+              weight="duotone"
+            />
+            My Day
           </Tab>
           <Tab
             onClick={() => handleTabClick("active", "Active Tasks")}
@@ -171,7 +181,13 @@ function App() {
               filter.type === "active" ? "tab-active" : ""
             }`}
           >
-            📝 Active
+            <Notebook
+              className="tabIcon"
+              size={24}
+              color="#d6d6d6"
+              weight="duotone"
+            />
+            Active
           </Tab>
           <Tab
             onClick={() => handleTabClick("completed", "Completed Tasks")}
@@ -179,7 +195,13 @@ function App() {
               filter.type === "completed" ? "tab-active" : ""
             }`}
           >
-            ✔️ Completed
+            <CheckSquare
+              className="tabIcon"
+              size={24}
+              color="#018911"
+              weight="duotone"
+            />
+            Completed
           </Tab>
           <Tab
             onClick={() => handleTabClick("important", "Important Tasks!")}
@@ -187,7 +209,13 @@ function App() {
               filter.type === "important" ? "tab-active" : ""
             }`}
           >
-            ⚠️ Important
+            <WarningCircle
+              className="tabIcon"
+              size={24}
+              color="#ab0303"
+              weight="duotone"
+            />
+            Important
           </Tab>
           <Clock className="clockStyle" />
         </div>

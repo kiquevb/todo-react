@@ -3,6 +3,12 @@ import styled from "@emotion/styled";
 
 import { useDispatch } from "react-redux";
 import { addTask } from "../../redux/reducers/taskReducer";
+import {
+  CellSignalLow,
+  CellSignalMedium,
+  CellSignalFull,
+  PlusCircle,
+} from "phosphor-react";
 
 let titleInput = React.createRef();
 let descInput = React.createRef();
@@ -25,6 +31,22 @@ const FormStyled = styled.form`
 const FormButton = styled.button`
   height: 30px;
   width: 30px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.5;
+
+  &:hover {
+    opacity: 0.8;
+  }
+  &:active {
+    opacity: 1;
+    transform: scale(0.92);
+  }
 `;
 
 const TextInput = styled.input`
@@ -60,13 +82,20 @@ const Form = () => {
     titleInput.current.focus();
   }
 
-  function handleRadio(prioridad) {
+  function handlePriority(prioridad) {
     setPriority(prioridad);
   }
 
   return (
     <FormStyled autocomplete="off" onSubmit={handleSubmit}>
-      <FormButton type="submit"></FormButton>
+      <FormButton type="submit">
+        <PlusCircle
+          className="addButton"
+          size={26}
+          color="#fff"
+          weight="light"
+        />
+      </FormButton>
       <TextInput
         ref={titleInput}
         type="text"
@@ -82,27 +111,23 @@ const Form = () => {
         placeholder="Description"
       ></TextInput>
 
-      <input
-        id="r1"
-        type="radio"
-        name="prioridad"
-        value="alta"
-        checked={priority === "alta"}
-        onChange={() => handleRadio("alta")}
+      <CellSignalLow
+        onClick={() => handlePriority("baja")}
+        size={priority === "baja" ? 25 : 15}
+        color={priority === "baja" ? "#06d629" : "#45b057"}
+        weight="duotone"
       />
-      <input
-        type="radio"
-        name="prioridad"
-        value="media"
-        checked={priority === "media"}
-        onChange={() => handleRadio("media")}
+      <CellSignalMedium
+        onClick={() => handlePriority("media")}
+        size={priority === "media" ? 25 : 15}
+        color={priority === "media" ? "#ffd900" : "#d1b828"}
+        weight="duotone"
       />
-      <input
-        type="radio"
-        name="prioridad"
-        value="baja"
-        checked={priority === "baja"}
-        onChange={() => handleRadio("baja")}
+      <CellSignalFull
+        onClick={() => handlePriority("alta")}
+        size={priority === "alta" ? 25 : 15}
+        color={priority === "alta" ? "#e6310e" : "#f76d52"}
+        weight="duotone"
       />
     </FormStyled>
   );
