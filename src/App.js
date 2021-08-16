@@ -217,7 +217,6 @@ function App() {
             />
             Important
           </Tab>
-          <Clock className="clockStyle" />
         </div>
 
         <Main>
